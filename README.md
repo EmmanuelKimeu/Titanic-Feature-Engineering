@@ -1,26 +1,33 @@
-Titanic Survival Analysis - Feature Engineering
+# Titanic Survival Analysis - Feature Engineering Pipeline
 
-Project Objective
-[cite_start]This project aims to build a predictive pipeline for the Titanic dataset by performing rigorous data cleaning, feature engineering, and feature selection to identify the strongest predictors of survival[cite: 3].
+## 1. Brief Description
+This project focuses on the end-to-end preprocessing of the Titanic dataset. It covers data cleaning, the creation of new predictive features, and feature selection using machine learning importance rankings. The goal is to transform raw data into a model-ready format to predict passenger survival.
 
-Project Structure
-- **data/**: Contains raw (`train.csv`, `test.csv`) and processed data (`train_cleaned.csv`).
-- **notebooks/**: `Titanic_Feature_Engineering.ipynb` for data exploration and visualization.
-- [cite_start]**scripts/**: Modular Python scripts for data cleaning, engineering, and selection [cite: 9-21].
+## 2. Project Structure
+- `data/`: Contains raw datasets and the final `train_cleaned.csv`.
+- `notebooks/`: Includes the Jupyter Notebook used for visual exploration and justification of data transformations.
+- `scripts/`: Contains modular Python files (`.py`) for automated data processing.
+- `requirements.txt`: Lists all necessary Python libraries.
 
+## 3. Instructions to Run
+### Setup
+1. Clone this repository to your local machine.
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
 
-  [cite_start]Data Cleaning Decisions [cite: 25]
-- **Missing Values**: Imputed `Age` and `Fare` with medians; `Embarked` with the mode. [cite_start]`Cabin` was dropped due to >70% missing data [cite: 33-35].
-- [cite_start]**Outliers**: Numerical features (`Fare`, `Age`) were capped at the 95th percentile to minimize the impact of extreme values [cite: 36-38].
-- [cite_start]**Consistency**: Removed duplicate entries and ensured categorical naming was uniform [cite: 39-42].
+### 4. Data Cleaning Decisions
+Missing Values: Age and Fare were filled with their respective medians to maintain distribution. Embarked was filled with the mode. Cabin was dropped due to excessive missingness (>75%).
 
+Outliers: Applied a cap at the 95th percentile for Age and Fare to prevent extreme outliers from biasing the model.
 
-  [cite_start]Feature Engineering [cite: 24]
-- [cite_start]**Derived Features**: Created `FamilySize`, `IsAlone`, `Fare_Per_Person`, and extracted `Title` from names [cite: 51-56].
-- [cite_start]**Transformations**: Applied Log Transformation to `Fare` to normalize its distribution[cite: 64].
-- [cite_start]**Encoding**: One-Hot Encoding applied to nominal features: `Sex`, `Embarked`, `Title`, and `AgeGroup` [cite: 57-58].
+Consistency: Checked for and removed duplicate rows to ensure data integrity.
 
+### 5. Key Observations & Findings
+Social Status: The extracted Title feature proved highly predictive; passengers with titles like "Mrs" or "Miss" showed significantly higher survival rates than "Mr".
 
-  [cite_start]Key Findings [cite: 26]
-- [cite_start]Social status (indicated by **Title**) and **Gender** were the strongest predictors of survival[cite: 73].
-- Passengers traveling in small families had a higher survival rate compared to those traveling alone.
+Family Structure: Traveling in a small family (size 2-4) provided a survival advantage, whereas traveling alone or in very large families decreased survival probability.
+
+Normalization: The Fare variable was heavily right-skewed. A Log Transformation successfully normalized the distribution, which is critical for many ML algorithms.
+
+Top Predictors: Using a Random Forest importance ranking, Sex, Title, and Fare_Log were identified as the most significant features for survival prediction.
